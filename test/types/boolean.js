@@ -35,7 +35,7 @@ describe('Boolean type', done => {
       return boolean({
         schema: mockSchema,
         value: false
-      })      
+      })
     })
   })
 })
