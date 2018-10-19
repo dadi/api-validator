@@ -1,0 +1,50 @@
+
+## Basic Setup
+
+1. Add these dev dependencies if you don't already have them:
+
+```
+"devDependencies": {
+  "@commitlint/cli": "~7.1.0",
+  "@commitlint/config-conventional": "~7.1.1",
+  "coveralls": latest,
+  "env-test": "~1.0.0",
+  "husky": "~0.13.3",
+  "istanbul": "~0.4.5",
+  "lint-staged": "~7.1.2",
+  "mocha": "~5.2.0",
+  "prettier-standard": "~8.0.1",
+  "should": "~13.2.0",
+  "snazzy": "~8.0.0",
+  "snyk": "latest",
+  "supertest": "~3.0.0"
+}
+```
+
+2. Add the `test` folder to the project
+
+3. Update package.json:
+
+```
+  "scripts": {
+    "test": "standard 'lib/**/*.js' | snazzy && env NODE_ENV=test ./node_modules/.bin/istanbul cover --report cobertura --report text --report html --report lcov ./node_modules/mocha/bin/_mocha test",
+    "posttest": "node ./scripts/coverage.js"
+    "snyk-protect": "snyk protect",
+    "prepublishOnly": "npm run snyk-protect",
+    "precommit": "lint-staged",
+    "commitmsg": "commitlint -e",
+    "format": "prettier-standard '{lib,scripts,test}/**/*.js'",
+    "prepare": "npm run snyk-protect"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "{lib,scripts,test}/**/*.js": [
+      "prettier-standard",
+      "git add"
+    ]
+  }
+```
