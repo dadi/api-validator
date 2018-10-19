@@ -6,7 +6,7 @@ const string = require('./../../types/string')
 const mockSchema = {
   type: 'string',
   validation: {
-    message: 'The field needs to be X, Y and Z'
+    message: 'needs to be a friendly string'
   }
 }
 
