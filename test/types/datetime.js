@@ -8,7 +8,7 @@ const mockSchema = {
   format: 'YYYY-MM-DD'
 }
 
-describe.only('DateTime type', done => {
+describe('DateTime type', done => {
   it('should export a function', () => {
     (typeof datetime).should.eql('function')
   })

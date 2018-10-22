@@ -136,14 +136,14 @@ describe('String type', done => {
         validation: {
           message: 'The value must be in the format `_[sequence of digits]_``',
           regex: {
-            pattern: '^_(\\d*)_$'
+            pattern: '^q+$'
           }
         }
       })
 
       string({
         schema,
-        value: '3984723--'
+        value: 'qqpqq'
       }).catch(error => {
         (error instanceof Error).should.eql(true)
         error.message.should.eql(schema.validation.message)

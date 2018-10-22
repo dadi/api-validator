@@ -34,9 +34,7 @@ function parseDate (value, format) {
   }
 
   if (typeof value === 'string') {
-    if (typeof format !== 'string') {
-      return null
-    }
+    format = format || 'YYYY-MM-DDTHH:mm:ss.SSSZ'
 
     try {
       let date = fecha.parse(value, format)

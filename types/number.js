@@ -57,26 +57,75 @@ module.exports = ({schema, value}) => {
     notInteger
   } = validateFilters(schema.validation || {})
 
-  if (
-    (equalTo && (value !== equalTo.value)) ||
-    (greaterThan && (value <= greaterThan.value)) ||
-    (greaterThanOrEqualTo && (value < greaterThanOrEqualTo.value)) ||
-    (lessThan && (value >= lessThan.value)) ||
-    (lessThanOrEqualTo && (value > lessThanOrEqualTo.value))
-  ) {
-    return new ValidationError(schema).reject()
+  if (equalTo && (value !== equalTo.value)) {
+    return new ValidationError(schema).reject(
+      `is not equal to ${equalTo.value}`,
+      'ERROR_EQUAL_TO'
+    )
+  }
+
+  if (greaterThan && (value <= greaterThan.value)) {
+    return new ValidationError(schema).reject(
+      `is not greater than ${greaterThan.value}`,
+      'ERROR_GREATER_THAN'
+    )
+  }
+
+  if (greaterThanOrEqualTo && (value < greaterThanOrEqualTo.value)) {
+    return new ValidationError(schema).reject(
+      `is not greater than or equal to ${greaterThanOrEqualTo.value}`,
+      'ERROR_GREATER_THAN_OR_EQUAL_TO'
+    )
+  }
+
+  if (lessThan && (value >= lessThan.value)) {
+    return new ValidationError(schema).reject(
+      `is not less than ${lessThan.value}`,
+      'ERROR_LESS_THAN'
+    )
+  }
+
+  if (lessThanOrEqualTo && (value > lessThanOrEqualTo.value)) {
+    return new ValidationError(schema).reject(
+      `is not less than or equal to ${lessThanOrEqualTo.value}`,
+      'ERROR_LESS_THAN_OR_EQUAL_TO'
+    )
   }
 
   if (even) {
     let isEven = (value % 2) === 0
 
-    if (isEven !== even.value) {
-      return new ValidationError(schema).reject()
+    if (isEven && !even.value) {
+      return new ValidationError(schema).reject(
+        'is not odd',
+        'ERROR_ODD'
+      )
+    }
+
+    if (!isEven && even.value) {
+      return new ValidationError(schema).reject(
+        'is not even',
+        'ERROR_EVEN'
+      )
     }
   }
 
-  if (integer && (Number.isInteger(value) !== integer.value)) {
-    return new ValidationError(schema).reject()
+  if (integer) {
+    let isInteger = Number.isInteger(value)
+
+    if (isInteger && !integer.value) {
+      return new ValidationError(schema).reject(
+        'is integer',
+        'ERROR_NOT_INTEGER'
+      )
+    }
+
+    if (!isInteger && integer.value) {
+      return new ValidationError(schema).reject(
+        'is not integer',
+        'ERROR_INTEGER'
+      )
+    }
   }
   
   return Promise.resolve()

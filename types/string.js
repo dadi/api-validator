@@ -12,11 +12,17 @@ function validateValue({schema, value}) {
   } = schema.validation || {}
 
   if (maxLength && (value.length > maxLength)) {
-    return new ValidationError(schema).reject()
+    return new ValidationError(schema).reject(
+      'is too long',
+      'ERROR_MAX_LENGTH'
+    )
   }
 
   if (minLength && (value.length < minLength)) {
-    return new ValidationError(schema).reject()
+    return new ValidationError(schema).reject(
+      'is too short',
+      'ERROR_MIN_LENGTH'
+    )
   }
 
   if (regex && regex.pattern) {
@@ -30,7 +36,10 @@ function validateValue({schema, value}) {
     let regularExpression = new RegExp(pattern, flags)
 
     if (regularExpression.exec(value) === null) {
-      return new ValidationError(schema).reject()
+      return new ValidationError(schema).reject(
+        `should match the pattern ${pattern}`,
+        'ERROR_REGEX'
+      )
     }    
   }
 
