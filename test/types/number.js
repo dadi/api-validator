@@ -20,7 +20,7 @@ describe('Number type', done => {
       schema: mockSchema,
       value: '1234'
     }).catch(error => {
-      (error instanceof Error).should.eql(true)
+      error.should.be.instanceOf(Error)
       error.message.should.eql(mockSchema.validation.message)
 
       done()
@@ -46,7 +46,7 @@ describe('Number type', done => {
         schema,
         value: 10
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -78,7 +78,7 @@ describe('Number type', done => {
         schema,
         value: 3
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -95,7 +95,7 @@ describe('Number type', done => {
         schema,
         value: 2
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -140,7 +140,7 @@ describe('Number type', done => {
         schema,
         value: 1
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -172,7 +172,7 @@ describe('Number type', done => {
         schema,
         value: 1
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -209,7 +209,7 @@ describe('Number type', done => {
         schema,
         value: 3.14
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -226,7 +226,7 @@ describe('Number type', done => {
         schema,
         value: 2
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -271,7 +271,7 @@ describe('Number type', done => {
         schema,
         value: 10
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -303,7 +303,7 @@ describe('Number type', done => {
         schema,
         value: 10
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })

@@ -20,7 +20,7 @@ describe('array type', done => {
       schema: mockSchema,
       value: '123'
     }).catch(error => {
-      (error instanceof Error).should.eql(true)
+      error.should.be.instanceOf(Error)
       error.message.should.eql(mockSchema.validation.message)
 
       done()

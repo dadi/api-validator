@@ -20,7 +20,7 @@ describe('Boolean type', done => {
       schema: mockSchema,
       value: '1234'
     }).catch(error => {
-      (error instanceof Error).should.eql(true)
+      error.should.be.instanceOf(Error)
       error.message.should.eql(mockSchema.validation.message)
 
       done()

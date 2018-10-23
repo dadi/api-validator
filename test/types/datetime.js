@@ -18,13 +18,13 @@ describe('DateTime type', done => {
       schema: mockSchema,
       value: '1234'
     }).catch(error => {
-      (error instanceof Error).should.eql(true)
+      error.should.be.instanceOf(Error)
 
       datetime({
         schema: {...mockSchema, format: 'DD-MM-YYYY'},
         value: '2018-03-01'
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -56,7 +56,7 @@ describe('DateTime type', done => {
         schema,
         value: '2018-01-01'
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -91,7 +91,7 @@ describe('DateTime type', done => {
         schema,
         value
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         value.setMonth(value.getMonth() + 2)
 
@@ -116,7 +116,7 @@ describe('DateTime type', done => {
         schema,
         value: '2018-08-31'
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         done()
       })
@@ -151,7 +151,7 @@ describe('DateTime type', done => {
         schema,
         value
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
 
         value.setMonth(value.getMonth() - 2)
 

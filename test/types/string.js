@@ -20,7 +20,7 @@ describe('String type', done => {
       schema: mockSchema,
       value: 1234
     }).catch(error => {
-      (error instanceof Error).should.eql(true)
+      error.should.be.instanceOf(Error)
       error.message.should.eql(mockSchema.validation.message)
 
       done()
@@ -32,7 +32,7 @@ describe('String type', done => {
       schema: mockSchema,
       value: ['hello', 'world', 1234]
     }).catch(error => {
-      (error instanceof Error).should.eql(true)
+      error.should.be.instanceOf(Error)
       error.message.should.eql(mockSchema.validation.message)
 
       done()
@@ -52,7 +52,7 @@ describe('String type', done => {
         schema,
         value: 'wonderful'
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
         error.message.should.eql(schema.validation.message)
 
         done()
@@ -101,7 +101,7 @@ describe('String type', done => {
         schema,
         value: 'fine'
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
         error.message.should.eql(schema.validation.message)
 
         done()
@@ -145,7 +145,7 @@ describe('String type', done => {
         schema,
         value: 'qqpqq'
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
         error.message.should.eql(schema.validation.message)
 
         done()
@@ -182,7 +182,7 @@ describe('String type', done => {
         schema,
         value: 'WHATEVER'
       }).catch(error => {
-        (error instanceof Error).should.eql(true)
+        error.should.be.instanceOf(Error)
         error.message.should.eql(schema.validation.message)
 
         schema.validation.regex.flags = 'i'
