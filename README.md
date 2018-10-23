@@ -2,6 +2,11 @@
 
 > A module for validating DADI API documents
 
+[![npm (scoped)](https://img.shields.io/npm/v/@dadi/api-validator.svg?maxAge=10800&style=flat-square)](https://www.npmjs.com/package/@dadi/api-validator)
+[![Coverage Status](https://coveralls.io/repos/github/dadi/api-validator/badge.svg?branch=master)](https://coveralls.io/github/dadi/api-validator?branch=master)
+[![Build Status](https://travis-ci.org/dadi/api-validator.svg?branch=master)](https://travis-ci.org/dadi/api-validator)
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
+
 ## Overview
 
 [DADI API](https://dadi.cloud/api) is a high-performance RESTful layer designed in support of API-first development and COPE. With this module, you can perform validation of API documents within your project using the same logic as used by the DADI API core application.
