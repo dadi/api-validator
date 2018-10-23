@@ -4,6 +4,7 @@ const types = {
   datetime: require('./types/datetime'),
   mixed: require('./types/mixed'),
   number: require('./types/number'),
+  object: require('./types/object'),
   objectid: require('./types/objectid'),
   reference: require('./types/reference'),
   string: require('./types/string')
@@ -107,6 +108,12 @@ class Validator {
 
     if (typeof typeHandler !== 'function') {
       return new ValidationError().reject()
+    }
+
+    // It's always possible to set a field to `null` as long as the
+    // `required` property is falsy in the schema.
+    if (value === null && !schema.required) {
+      return Promise.resolve()
     }
 
     return typeHandler({
