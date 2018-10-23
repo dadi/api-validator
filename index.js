@@ -4,6 +4,7 @@ const types = {
   datetime: require('./types/datetime'),
   mixed: require('./types/mixed'),
   number: require('./types/number'),
+  objectid: require('./types/objectid'),
   reference: require('./types/reference'),
   string: require('./types/string')
 }
@@ -105,7 +106,6 @@ class Validator {
     let typeHandler = types[type]
 
     if (typeof typeHandler !== 'function') {
-      console.log({type, schema})
       return new ValidationError().reject()
     }
 
