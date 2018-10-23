@@ -89,7 +89,7 @@ describe('validateDocument', () => {
     })
   })
 
-  it('should treat a language variaton of a field in the same way as the canonical one', done => {
+  it('should treat a language variaton of a field in the same way as the canonical one (using default)', done => {
     let validator = new Validator()
 
     validator.validateDocument({
@@ -114,6 +114,40 @@ describe('validateDocument', () => {
       error[1].message.should.be.instanceof(String)
 
       error[2].field.should.eql('title:fr')
+      error[2].code.should.eql('ERROR_MIN_LENGTH')
+      error[2].message.should.be.instanceof(String)
+
+      done()
+    })
+  })
+
+  it('should treat a language variaton of a field in the same way as the canonical one (using custom)', done => {
+    let validator = new Validator({
+      i18nFieldCharacter: '='
+    })
+
+    validator.validateDocument({
+      document: {
+        title: 'hello',
+        'title=pt': 'ola',
+        'title=fr': 'bonjour',
+        'title=kr': 'annyeonghaseyo',
+        revision: 1
+      },
+      schema: mockSchema
+    }).catch(error => {
+      error.should.be.instanceof(Array)
+      error.length.should.eql(3)
+
+      error[0].field.should.eql('title')
+      error[0].code.should.eql('ERROR_MIN_LENGTH')
+      error[0].message.should.be.instanceof(String)
+
+      error[1].field.should.eql('title=pt')
+      error[1].code.should.eql('ERROR_MIN_LENGTH')
+      error[1].message.should.be.instanceof(String)
+
+      error[2].field.should.eql('title=fr')
       error[2].code.should.eql('ERROR_MIN_LENGTH')
       error[2].message.should.be.instanceof(String)
 
