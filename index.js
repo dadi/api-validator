@@ -2,6 +2,7 @@ const types = {
   array: require('./types/array'),
   boolean: require('./types/boolean'),
   datetime: require('./types/datetime'),
+  media: require('./types/media'),
   mixed: require('./types/mixed'),
   number: require('./types/number'),
   object: require('./types/object'),
