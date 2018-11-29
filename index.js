@@ -48,6 +48,21 @@ class Validator {
         })
       }
 
+      // We treat null values as a special case. If the field is required,
+      // we reject with the `ERROR_REQUIRED` code, because technically the
+      // field is not set. If the field is not required, we accept the value.
+      if (value === null) {
+        if (fieldSchema.required) {
+          return errors.push({
+            code: 'ERROR_REQUIRED',
+            field,
+            message: 'must be specified'
+          })          
+        }
+
+        return
+      }
+
       chain = chain.then(() => {
         return this.validateValue({
           schema: fieldSchema,

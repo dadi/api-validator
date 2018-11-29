@@ -192,6 +192,19 @@ describe('validateDocument', () => {
     })
   })
 
+  it('should not reject when a non-required field is set to null', () => {
+    let validator = new Validator()
+
+    return validator.validateDocument({
+      document: {
+        title: 'hello world',
+        revision: null,
+        publishedAt: null
+      },
+      schema: mockSchema
+    })
+  })
+
   it('should not reject when a required field is missing from the payload and `isUpdate: true`', () => {
     let validator = new Validator()
 
@@ -201,6 +214,24 @@ describe('validateDocument', () => {
       },
       isUpdate: true,
       schema: mockSchema
+    })
+  })
+
+  it('should reject when a required field is set to null', done => {
+    let validator = new Validator()
+
+    validator.validateDocument({
+      document: {
+        title: null
+      },
+      schema: mockSchema
+    }).catch(error => {
+      error.should.be.instanceof(Array)
+      error.length.should.eql(1)
+      error[0].code.should.eql('ERROR_REQUIRED')
+      error[0].message.should.be.instanceof(String)
+
+      done()
     })
   })
 

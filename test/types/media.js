@@ -42,6 +42,13 @@ describe('Media type', done => {
       })
     })
 
+    it('should resolve if the input value is null', () => {
+      return media({
+        schema: mockSchema,
+        value: null
+      })
+    })
+
     it('should resolve if the input value is a hexadecimal string', () => {
       return media({
         schema: mockSchema,
@@ -114,6 +121,24 @@ describe('Media type', done => {
           {
             _id: '5bd1c08a7a39d56eb0af7c1d'
           },
+          {
+            _id: '5bd1c08a7a39d56eb0af7c1d',
+            altText: 'Lorem ipsum',
+            crop: [16, 32, 64, 128]
+          }
+        ]
+      })
+    })
+
+    it('should resolve if the input array contains null values', () => {
+      return media({
+        schema: mockSchema,
+        value: [
+          '5bd1c08a7a39d56eb0af7c1d',
+          {
+            _id: '5bd1c08a7a39d56eb0af7c1d'
+          },
+          null,
           {
             _id: '5bd1c08a7a39d56eb0af7c1d',
             altText: 'Lorem ipsum',
