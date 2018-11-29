@@ -186,9 +186,33 @@ describe('validateDocument', () => {
     return validator.validateDocument({
       document: {
         title: 'hello world',
+        revision: 12
+      },
+      schema: mockSchema
+    })
+  })
+
+  it('should not reject when a non-required field is set to null', () => {
+    let validator = new Validator()
+
+    return validator.validateDocument({
+      document: {
+        title: 'hello world',
         revision: null,
         publishedAt: null
       },
+      schema: mockSchema
+    })
+  })
+
+  it('should not reject when a required field is missing from the payload and `isUpdate: true`', () => {
+    let validator = new Validator()
+
+    return validator.validateDocument({
+      document: {
+        revision: 12
+      },
+      isUpdate: true,
       schema: mockSchema
     })
   })
@@ -208,30 +232,6 @@ describe('validateDocument', () => {
       error[0].message.should.be.instanceof(String)
 
       done()
-    })
-  })
-
-  it('should not reject when a non-required field is set to null', () => {
-    let validator = new Validator()
-
-    return validator.validateDocument({
-      document: {
-        title: 'hello world',
-        revision: 12
-      },
-      schema: mockSchema
-    })
-  })
-
-  it('should not reject when a required field is missing from the payload and `isUpdate: true`', () => {
-    let validator = new Validator()
-
-    return validator.validateDocument({
-      document: {
-        revision: 12
-      },
-      isUpdate: true,
-      schema: mockSchema
     })
   })
 
