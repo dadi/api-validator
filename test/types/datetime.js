@@ -43,6 +43,18 @@ describe('DateTime type', done => {
     })
   })
 
+  it('should resolve if the input value is a timestamp', () => {
+    return datetime({
+      schema: mockSchema,
+      value: Date.now()
+    }).then(() => {
+      return datetime({
+        schema: {...mockSchema, format: 'DD-MM-YYYY'},
+        value: Date.now()
+      })
+    })
+  })
+
   describe('validation.after', () => {
     it('should reject if the input value is a date prior to the limit', done => {
       let schema = Object.assign({}, mockSchema, {
