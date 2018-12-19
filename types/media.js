@@ -3,10 +3,10 @@ const ValidationError = require('./../lib/validation-error')
 
 module.exports = ({schema, value}) => {
   let normalisedValue = Array.isArray(value) ? value : [value]
-  let isCorrectType = normalisedValue.every(value => {
+  let isCorrectType = normalisedValue && normalisedValue.every(value => {
     if (value === null) return true
 
-    return isHexadecimal(value) || isHexadecimal(value._id)
+    return value && (isHexadecimal(value) || isHexadecimal(value._id))
   })
 
   if (!isCorrectType) {
