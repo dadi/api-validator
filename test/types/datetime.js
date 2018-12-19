@@ -69,6 +69,7 @@ describe('DateTime type', done => {
         value: '2018-01-01'
       }).catch(error => {
         error.should.be.instanceOf(Error)
+        error.code.should.eql('ERROR_AFTER')
 
         done()
       })
@@ -129,6 +130,7 @@ describe('DateTime type', done => {
         value: '2018-08-31'
       }).catch(error => {
         error.should.be.instanceOf(Error)
+        error.code.should.eql('ERROR_BEFORE')
 
         done()
       })
