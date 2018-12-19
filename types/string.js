@@ -5,20 +5,29 @@ function validateValue({schema, value}) {
     return new ValidationError(schema).reject()
   }
 
+  let sanitisedValue = value.trim()
+
+  if (schema.required && sanitisedValue.length === 0) {
+    return new ValidationError(schema).reject(
+      'must be specified',
+      'ERROR_REQUIRED'
+    )    
+  }
+
   const {
     maxLength,
     minLength,
     regex
   } = schema.validation || {}
 
-  if (maxLength && (value.length > maxLength)) {
+  if (maxLength && (sanitisedValue.length > maxLength)) {
     return new ValidationError(schema).reject(
       'is too long',
       'ERROR_MAX_LENGTH'
     )
   }
 
-  if (minLength && (value.length < minLength)) {
+  if (minLength && (sanitisedValue.length < minLength)) {
     return new ValidationError(schema).reject(
       'is too short',
       'ERROR_MIN_LENGTH'
@@ -35,7 +44,7 @@ function validateValue({schema, value}) {
     let flags = typeof regex.flags === 'string' ? regex.flags : ''
     let regularExpression = new RegExp(pattern, flags)
 
-    if (regularExpression.exec(value) === null) {
+    if (regularExpression.exec(sanitisedValue) === null) {
       return new ValidationError(schema).reject(
         `should match the pattern ${pattern}`,
         'ERROR_REGEX'
