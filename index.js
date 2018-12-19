@@ -128,7 +128,7 @@ class Validator {
 
     // It's always possible to set a field to `null` as long as the
     // `required` property is falsy in the schema.
-    if (value === null && !schema.required) {
+    if ((value === undefined || value === null) && !schema.required) {
       return Promise.resolve()
     }
 

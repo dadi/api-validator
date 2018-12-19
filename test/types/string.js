@@ -27,6 +27,21 @@ describe('String type', done => {
     })
   })
 
+  it('should reject if the field is required and the value is an empty string', done => {
+    string({
+      schema: Object.assign({}, mockSchema, {
+        required: true
+      }),
+      value: ''
+    }).catch(error => {
+      error.should.be.instanceof(Error)
+      error.code.should.eql('ERROR_REQUIRED')
+      error.message.should.be.instanceof(String)
+
+      done()
+    })
+  })
+
   it('should reject if the input value is an array where one of the elements is not a string', done => {
     string({
       schema: mockSchema,
@@ -70,6 +85,11 @@ describe('String type', done => {
       return string({
         schema,
         value: 'fine'
+      }).then(() => {
+        return string({
+          schema,
+          value: '       fine        '
+        })        
       })
     })
 
@@ -100,6 +120,14 @@ describe('String type', done => {
       string({
         schema,
         value: 'fine'
+      }).catch(error => {
+        error.should.be.instanceOf(Error)
+        error.message.should.eql(schema.validation.message)
+
+        return string({
+          schema,
+          value: '       fine        '
+        })
       }).catch(error => {
         error.should.be.instanceOf(Error)
         error.message.should.eql(schema.validation.message)

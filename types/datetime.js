@@ -57,11 +57,22 @@ module.exports = ({schema = {}, value}) => {
 
   const {after, before} = buildFilters(schema)
 
-  if (
-    after && (after.value > date.getTime()) ||
-    before && (before.value < date.getTime())
-  ) {
-    return new ValidationError(schema).reject()
+  if (after && (after.value > date.getTime())) {
+    let formattedValue = fecha.format(after.value)
+
+    return new ValidationError(schema).reject(
+      `must be after ${formattedValue}`,
+      'ERROR_AFTER'
+    )
+  }
+
+  if (before && (before.value < date.getTime())) {
+    let formattedValue = fecha.format(before.value)
+
+    return new ValidationError(schema).reject(
+      `must be before ${formattedValue}`,
+      'ERROR_BEFORE'
+    )
   }
 
   return Promise.resolve()
