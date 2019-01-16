@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0] (2019-01-16)
+
+### Changed
+
+- [#7](https://github.com/dadi/api-validator/pull/7): move check for `null` values into `validateValue` and rephrase error messages
+
 ## [1.1.2] (2018-12-19)
 
 ### Fixed
