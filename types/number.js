@@ -59,35 +59,35 @@ module.exports = ({schema, value}) => {
 
   if (equalTo && (value !== equalTo.value)) {
     return new ValidationError(schema).reject(
-      `is not equal to ${equalTo.value}`,
+      `must be equal to ${equalTo.value}`,
       'ERROR_EQUAL_TO'
     )
   }
 
   if (greaterThan && (value <= greaterThan.value)) {
     return new ValidationError(schema).reject(
-      `is not greater than ${greaterThan.value}`,
+      `must be greater than ${greaterThan.value}`,
       'ERROR_GREATER_THAN'
     )
   }
 
   if (greaterThanOrEqualTo && (value < greaterThanOrEqualTo.value)) {
     return new ValidationError(schema).reject(
-      `is not greater than or equal to ${greaterThanOrEqualTo.value}`,
+      `must be greater than or equal to ${greaterThanOrEqualTo.value}`,
       'ERROR_GREATER_THAN_OR_EQUAL_TO'
     )
   }
 
   if (lessThan && (value >= lessThan.value)) {
     return new ValidationError(schema).reject(
-      `is not less than ${lessThan.value}`,
+      `must be less than ${lessThan.value}`,
       'ERROR_LESS_THAN'
     )
   }
 
   if (lessThanOrEqualTo && (value > lessThanOrEqualTo.value)) {
     return new ValidationError(schema).reject(
-      `is not less than or equal to ${lessThanOrEqualTo.value}`,
+      `must be less than or equal to ${lessThanOrEqualTo.value}`,
       'ERROR_LESS_THAN_OR_EQUAL_TO'
     )
   }
@@ -97,14 +97,14 @@ module.exports = ({schema, value}) => {
 
     if (isEven && !even.value) {
       return new ValidationError(schema).reject(
-        'is not odd',
+        'must be odd',
         'ERROR_ODD'
       )
     }
 
     if (!isEven && even.value) {
       return new ValidationError(schema).reject(
-        'is not even',
+        'must be even',
         'ERROR_EVEN'
       )
     }
@@ -115,14 +115,14 @@ module.exports = ({schema, value}) => {
 
     if (isInteger && !integer.value) {
       return new ValidationError(schema).reject(
-        'is integer',
+        'must not be integer',
         'ERROR_NOT_INTEGER'
       )
     }
 
     if (!isInteger && integer.value) {
       return new ValidationError(schema).reject(
-        'is not integer',
+        'must be integer',
         'ERROR_INTEGER'
       )
     }
