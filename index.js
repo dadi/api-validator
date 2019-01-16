@@ -48,21 +48,6 @@ class Validator {
         })
       }
 
-      // We treat null values as a special case. If the field is required,
-      // we reject with the `ERROR_REQUIRED` code, because technically the
-      // field is not set. If the field is not required, we accept the value.
-      if (value === null) {
-        if (fieldSchema.required) {
-          return errors.push({
-            code: 'ERROR_REQUIRED',
-            field,
-            message: 'must be specified'
-          })          
-        }
-
-        return
-      }
-
       chain = chain.then(() => {
         return this.validateValue({
           schema: fieldSchema,
@@ -126,9 +111,17 @@ class Validator {
       return new ValidationError().reject()
     }
 
-    // It's always possible to set a field to `null` as long as the
-    // `required` property is falsy in the schema.
-    if ((value === undefined || value === null) && !schema.required) {
+    // We treat null values as a special case. If the field is required,
+    // we reject with the `ERROR_REQUIRED` code, because technically the
+    // field is not set. If the field is not required, we accept the value.
+    if (value === null || value === undefined) {
+      if (schema.required) {
+        return new ValidationError().reject(
+          'must be specified',
+          'ERROR_REQUIRED'
+        )
+      }
+
       return Promise.resolve()
     }
 

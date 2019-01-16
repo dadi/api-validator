@@ -22,14 +22,14 @@ function validateValue({schema, value}) {
 
   if (maxLength && (sanitisedValue.length > maxLength)) {
     return new ValidationError(schema).reject(
-      'is too long',
+      `must be at most ${maxLength} characters long`,
       'ERROR_MAX_LENGTH'
     )
   }
 
   if (minLength && (sanitisedValue.length < minLength)) {
     return new ValidationError(schema).reject(
-      'is too short',
+      `must be at least ${minLength} characters long`,
       'ERROR_MIN_LENGTH'
     )
   }
@@ -46,7 +46,7 @@ function validateValue({schema, value}) {
 
     if (regularExpression.exec(sanitisedValue) === null) {
       return new ValidationError(schema).reject(
-        `should match the pattern ${pattern}`,
+        'is not in the right format',
         'ERROR_REGEX'
       )
     }    
