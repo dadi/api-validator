@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.3.0](2019-08-02)
+
+### Changed
+
+- [#7](https://github.com/dadi/api-validator/pull/9): add collection schema validation methods
+
 ## [1.2.0](2019-01-16)
 
 ### Changed
