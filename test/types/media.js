@@ -9,7 +9,7 @@ const mockSchema = {
 
 describe('Media type', done => {
   it('should export a function', () => {
-    (typeof media).should.eql('function')
+    ;(typeof media).should.eql('function')
   })
 
   describe('Single value', () => {

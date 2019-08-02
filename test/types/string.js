@@ -12,7 +12,7 @@ const mockSchema = {
 
 describe('String type', done => {
   it('should export a function', () => {
-    (typeof string).should.eql('function')
+    ;(typeof string).should.eql('function')
   })
 
   it('should reject if the input value is not a string', done => {
@@ -56,7 +56,7 @@ describe('String type', done => {
 
   describe('validation.maxLength', () => {
     it('should reject if the input value is longer than the limit', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           maxLength: 5,
           message: 'The value must not contain more than 5 characters'
@@ -75,7 +75,7 @@ describe('String type', done => {
     })
 
     it('should resolve if the input value is shorter than the limit', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           maxLength: 5,
           message: 'The value must not contain more than 5 characters'
@@ -89,12 +89,12 @@ describe('String type', done => {
         return string({
           schema,
           value: '       fine        '
-        })        
+        })
       })
     })
 
     it('should resolve if the input value is the same length as the limit', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           maxLength: 5,
           message: 'The value must not contain more than 5 characters'
@@ -109,7 +109,7 @@ describe('String type', done => {
   })
 
   describe('validation.minLength', () => {
-    let schema = Object.assign({}, mockSchema, {
+    const schema = Object.assign({}, mockSchema, {
       validation: {
         minLength: 5,
         message: 'The value must contain more than 5 characters'
@@ -120,20 +120,22 @@ describe('String type', done => {
       string({
         schema,
         value: 'fine'
-      }).catch(error => {
-        error.should.be.instanceOf(Error)
-        error.message.should.eql(schema.validation.message)
-
-        return string({
-          schema,
-          value: '       fine        '
-        })
-      }).catch(error => {
-        error.should.be.instanceOf(Error)
-        error.message.should.eql(schema.validation.message)
-
-        done()
       })
+        .catch(error => {
+          error.should.be.instanceOf(Error)
+          error.message.should.eql(schema.validation.message)
+
+          return string({
+            schema,
+            value: '       fine        '
+          })
+        })
+        .catch(error => {
+          error.should.be.instanceOf(Error)
+          error.message.should.eql(schema.validation.message)
+
+          done()
+        })
     })
 
     it('should resolve if the input value is shorter than the limit', () => {
@@ -144,7 +146,7 @@ describe('String type', done => {
     })
 
     it('should resolve if the input value is the same length as the limit', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           maxLength: 5,
           message: 'The value must not contain more than 5 characters'
@@ -160,7 +162,7 @@ describe('String type', done => {
 
   describe('validation.regex', () => {
     it('should reject if the input value does not match the regular expression', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           message: 'The value must be in the format `_[sequence of digits]_``',
           regex: {
@@ -181,7 +183,7 @@ describe('String type', done => {
     })
 
     it('should resolve if the input value matches the regular expression', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           message: 'The value must be in the format `_[sequence of digits]_``',
           regex: {
@@ -197,7 +199,7 @@ describe('String type', done => {
     })
 
     it('should respect the `flags` property', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           message: 'The value must be in the format `_[sequence of digits]_``',
           regex: {

@@ -10,7 +10,7 @@ const mockSchema = {
 
 describe('DateTime type', done => {
   it('should export a function', () => {
-    (typeof datetime).should.eql('function')
+    ;(typeof datetime).should.eql('function')
   })
 
   it('should reject if the input value is not a valid date', done => {
@@ -57,7 +57,7 @@ describe('DateTime type', done => {
 
   describe('validation.after', () => {
     it('should reject if the input value is a date prior to the limit', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         format: 'YYYY-MM-DD',
         validation: {
           after: '2018-03-01'
@@ -76,7 +76,7 @@ describe('DateTime type', done => {
     })
 
     it('should resolve if the input value is a date after the limit', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         format: 'YYYY-MM-DD',
         validation: {
           after: '2018-03-01'
@@ -90,13 +90,13 @@ describe('DateTime type', done => {
     })
 
     it('should replace the `$now` placeholder with the current date', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         format: 'YYYY-MM-DD',
         validation: {
           after: '$now'
         }
       })
-      let value = new Date()
+      const value = new Date()
 
       value.setMonth(value.getMonth() - 1)
 
@@ -118,7 +118,7 @@ describe('DateTime type', done => {
 
   describe('validation.before', () => {
     it('should reject if the input value is a date after the limit', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         format: 'YYYY-MM-DD',
         validation: {
           before: '2018-03-01'
@@ -137,7 +137,7 @@ describe('DateTime type', done => {
     })
 
     it('should resolve if the input value is a date prior to the limit', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         format: 'YYYY-MM-DD',
         validation: {
           before: '2018-03-01'
@@ -151,13 +151,13 @@ describe('DateTime type', done => {
     })
 
     it('should replace the `$now` placeholder with the current date', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         format: 'YYYY-MM-DD',
         validation: {
           before: '$now'
         }
       })
-      let value = new Date()
+      const value = new Date()
 
       value.setMonth(value.getMonth() + 1)
 

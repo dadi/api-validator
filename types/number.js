@@ -1,18 +1,15 @@
 const ValidationError = require('./../lib/validation-error')
 
-function validateFilters (validationBlock) {
-  let filters = {}
-  let numberFilters = [
+function validateFilters(validationBlock) {
+  const filters = {}
+  const numberFilters = [
     'equalTo',
     'greaterThan',
     'greaterThanOrEqualTo',
     'lessThan',
     'lessThanOrEqualTo'
   ]
-  let booleanFilters = [
-    'even',
-    'integer'
-  ]
+  const booleanFilters = ['even', 'integer']
 
   // Validating number filters.
   numberFilters.forEach(filter => {
@@ -57,35 +54,35 @@ module.exports = ({schema, value}) => {
     notInteger
   } = validateFilters(schema.validation || {})
 
-  if (equalTo && (value !== equalTo.value)) {
+  if (equalTo && value !== equalTo.value) {
     return new ValidationError(schema).reject(
       `must be equal to ${equalTo.value}`,
       'ERROR_EQUAL_TO'
     )
   }
 
-  if (greaterThan && (value <= greaterThan.value)) {
+  if (greaterThan && value <= greaterThan.value) {
     return new ValidationError(schema).reject(
       `must be greater than ${greaterThan.value}`,
       'ERROR_GREATER_THAN'
     )
   }
 
-  if (greaterThanOrEqualTo && (value < greaterThanOrEqualTo.value)) {
+  if (greaterThanOrEqualTo && value < greaterThanOrEqualTo.value) {
     return new ValidationError(schema).reject(
       `must be greater than or equal to ${greaterThanOrEqualTo.value}`,
       'ERROR_GREATER_THAN_OR_EQUAL_TO'
     )
   }
 
-  if (lessThan && (value >= lessThan.value)) {
+  if (lessThan && value >= lessThan.value) {
     return new ValidationError(schema).reject(
       `must be less than ${lessThan.value}`,
       'ERROR_LESS_THAN'
     )
   }
 
-  if (lessThanOrEqualTo && (value > lessThanOrEqualTo.value)) {
+  if (lessThanOrEqualTo && value > lessThanOrEqualTo.value) {
     return new ValidationError(schema).reject(
       `must be less than or equal to ${lessThanOrEqualTo.value}`,
       'ERROR_LESS_THAN_OR_EQUAL_TO'
@@ -93,25 +90,19 @@ module.exports = ({schema, value}) => {
   }
 
   if (even) {
-    let isEven = (value % 2) === 0
+    const isEven = value % 2 === 0
 
     if (isEven && !even.value) {
-      return new ValidationError(schema).reject(
-        'must be odd',
-        'ERROR_ODD'
-      )
+      return new ValidationError(schema).reject('must be odd', 'ERROR_ODD')
     }
 
     if (!isEven && even.value) {
-      return new ValidationError(schema).reject(
-        'must be even',
-        'ERROR_EVEN'
-      )
+      return new ValidationError(schema).reject('must be even', 'ERROR_EVEN')
     }
   }
 
   if (integer) {
-    let isInteger = Number.isInteger(value)
+    const isInteger = Number.isInteger(value)
 
     if (isInteger && !integer.value) {
       return new ValidationError(schema).reject(
@@ -127,6 +118,6 @@ module.exports = ({schema, value}) => {
       )
     }
   }
-  
+
   return Promise.resolve()
 }
