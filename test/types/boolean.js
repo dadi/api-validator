@@ -12,7 +12,7 @@ const mockSchema = {
 
 describe('Boolean type', done => {
   it('should export a function', () => {
-    (typeof boolean).should.eql('function')
+    ;(typeof boolean).should.eql('function')
   })
 
   it('should reject if the input value is not a boolean', done => {

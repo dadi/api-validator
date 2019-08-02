@@ -1,7 +1,7 @@
 const fecha = require('fecha')
 const ValidationError = require('./../lib/validation-error')
 
-function buildFilters (schema) {
+function buildFilters(schema) {
   const availableFilters = ['after', 'before']
 
   return availableFilters.reduce((filters, filter) => {
@@ -9,8 +9,8 @@ function buildFilters (schema) {
       return filters
     }
 
-    let value = schema.validation[filter]
-    let date = value === '$now' ? new Date() : parseDate(value, schema.format)
+    const value = schema.validation[filter]
+    const date = value === '$now' ? new Date() : parseDate(value, schema.format)
 
     if (date instanceof Date) {
       filters[filter] = {
@@ -22,7 +22,7 @@ function buildFilters (schema) {
   }, {})
 }
 
-function parseDate (value, format) {
+function parseDate(value, format) {
   let date
 
   if (value instanceof Date) {
@@ -37,7 +37,7 @@ function parseDate (value, format) {
     format = format || 'YYYY-MM-DDTHH:mm:ss.SSSZ'
 
     try {
-      let date = fecha.parse(value, format)
+      const date = fecha.parse(value, format)
 
       return date
     } catch (error) {
@@ -49,7 +49,7 @@ function parseDate (value, format) {
 }
 
 module.exports = ({schema = {}, value}) => {
-  let date = parseDate(value, schema.format)
+  const date = parseDate(value, schema.format)
 
   if (!(date instanceof Date)) {
     return new ValidationError(schema).reject()
@@ -57,8 +57,8 @@ module.exports = ({schema = {}, value}) => {
 
   const {after, before} = buildFilters(schema)
 
-  if (after && (after.value > date.getTime())) {
-    let formattedValue = fecha.format(after.value)
+  if (after && after.value > date.getTime()) {
+    const formattedValue = fecha.format(after.value)
 
     return new ValidationError(schema).reject(
       `must be after ${formattedValue}`,
@@ -66,8 +66,8 @@ module.exports = ({schema = {}, value}) => {
     )
   }
 
-  if (before && (before.value < date.getTime())) {
-    let formattedValue = fecha.format(before.value)
+  if (before && before.value < date.getTime()) {
+    const formattedValue = fecha.format(before.value)
 
     return new ValidationError(schema).reject(
       `must be before ${formattedValue}`,

@@ -9,7 +9,7 @@ const mockSchema = {
 
 describe('Object type', done => {
   it('should export a function', () => {
-    (typeof object).should.eql('function')
+    ;(typeof object).should.eql('function')
   })
 
   it('should reject if the input value is not an Object', done => {

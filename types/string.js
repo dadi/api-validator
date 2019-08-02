@@ -5,29 +5,25 @@ function validateValue({schema, value}) {
     return new ValidationError(schema).reject()
   }
 
-  let sanitisedValue = value.trim()
+  const sanitisedValue = value.trim()
 
   if (schema.required && sanitisedValue.length === 0) {
     return new ValidationError(schema).reject(
       'must be specified',
       'ERROR_REQUIRED'
-    )    
+    )
   }
 
-  const {
-    maxLength,
-    minLength,
-    regex
-  } = schema.validation || {}
+  const {maxLength, minLength, regex} = schema.validation || {}
 
-  if (maxLength && (sanitisedValue.length > maxLength)) {
+  if (maxLength && sanitisedValue.length > maxLength) {
     return new ValidationError(schema).reject(
       `must be at most ${maxLength} characters long`,
       'ERROR_MAX_LENGTH'
     )
   }
 
-  if (minLength && (sanitisedValue.length < minLength)) {
+  if (minLength && sanitisedValue.length < minLength) {
     return new ValidationError(schema).reject(
       `must be at least ${minLength} characters long`,
       'ERROR_MIN_LENGTH'
@@ -41,15 +37,15 @@ function validateValue({schema, value}) {
       pattern = pattern.source
     }
 
-    let flags = typeof regex.flags === 'string' ? regex.flags : ''
-    let regularExpression = new RegExp(pattern, flags)
+    const flags = typeof regex.flags === 'string' ? regex.flags : ''
+    const regularExpression = new RegExp(pattern, flags)
 
     if (regularExpression.exec(sanitisedValue) === null) {
       return new ValidationError(schema).reject(
         'is not in the right format',
         'ERROR_REGEX'
       )
-    }    
+    }
   }
 
   return Promise.resolve()
@@ -57,18 +53,20 @@ function validateValue({schema, value}) {
 
 module.exports = ({schema, value}) => {
   if (Array.isArray(value)) {
-    let arrayValidation = value.map(valueNode => {
+    const arrayValidation = value.map(valueNode => {
       return validateValue({
         schema,
         value: valueNode
       })
     })
 
-    return Promise.all(arrayValidation).then(() => undefined).catch(error => {
-      return new ValidationError(schema).reject()
-    })
+    return Promise.all(arrayValidation)
+      .then(() => undefined)
+      .catch(error => {
+        return new ValidationError(schema).reject()
+      })
   }
-  
+
   return validateValue({
     schema,
     value
