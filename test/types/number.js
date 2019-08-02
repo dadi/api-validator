@@ -12,7 +12,7 @@ const mockSchema = {
 
 describe('Number type', done => {
   it('should export a function', () => {
-    (typeof number).should.eql('function')
+    ;(typeof number).should.eql('function')
   })
 
   it('should reject if the input value is not a number', done => {
@@ -36,7 +36,7 @@ describe('Number type', done => {
 
   describe('validation.equalTo', () => {
     it('should reject if the input value is not equal to the filter', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           equalTo: 5
         }
@@ -53,7 +53,7 @@ describe('Number type', done => {
     })
 
     it('should resolve if the input value is equal to the filter', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           equalTo: 5
         }
@@ -68,7 +68,7 @@ describe('Number type', done => {
 
   describe('validation.even', () => {
     it('should reject if `even: true` and the input value is odd', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           even: true
         }
@@ -85,7 +85,7 @@ describe('Number type', done => {
     })
 
     it('should reject if `even: false` and the input value is even', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           even: false
         }
@@ -102,7 +102,7 @@ describe('Number type', done => {
     })
 
     it('should resolve if `even: true` and the input value is even', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           even: true
         }
@@ -115,7 +115,7 @@ describe('Number type', done => {
     })
 
     it('should resolve if `even: false` and the input value is odd', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           even: false
         }
@@ -130,7 +130,7 @@ describe('Number type', done => {
 
   describe('validation.greaterThan', () => {
     it('should reject if the input value is not greater than the filter', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           greaterThan: 5
         }
@@ -147,7 +147,7 @@ describe('Number type', done => {
     })
 
     it('should resolve if the input value is greater than the filter', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           greaterThan: 5
         }
@@ -162,7 +162,7 @@ describe('Number type', done => {
 
   describe('validation.greaterThanOrEqualTo', () => {
     it('should reject if the input value is not greater than or equal to the filter', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           greaterThanOrEqualTo: 5
         }
@@ -179,7 +179,7 @@ describe('Number type', done => {
     })
 
     it('should resolve if the input value is greater than or equal to the filter', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           greaterThanOrEqualTo: 5
         }
@@ -199,7 +199,7 @@ describe('Number type', done => {
 
   describe('validation.integer', () => {
     it('should reject if `integer: true` and the input value is not an integer', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           integer: true
         }
@@ -216,7 +216,7 @@ describe('Number type', done => {
     })
 
     it('should reject if `integer: false` and the input value is integer', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           integer: false
         }
@@ -233,7 +233,7 @@ describe('Number type', done => {
     })
 
     it('should resolve if `integer: true` and the input value is integer', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           integer: true
         }
@@ -246,7 +246,7 @@ describe('Number type', done => {
     })
 
     it('should resolve if `integer: false` and the input value is not an integer', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           integer: false
         }
@@ -261,7 +261,7 @@ describe('Number type', done => {
 
   describe('validation.lessThan', () => {
     it('should reject if the input value is not less than the filter', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           lessThan: 5
         }
@@ -278,7 +278,7 @@ describe('Number type', done => {
     })
 
     it('should resolve if the input value is less than the filter', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           lessThan: 5
         }
@@ -293,7 +293,7 @@ describe('Number type', done => {
 
   describe('validation.lessThanOrEqualTo', () => {
     it('should reject if the input value is not less than or equal to the filter', done => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           lessThanOrEqualTo: 5
         }
@@ -310,7 +310,7 @@ describe('Number type', done => {
     })
 
     it('should resolve if the input value is less than or equal to the filter', () => {
-      let schema = Object.assign({}, mockSchema, {
+      const schema = Object.assign({}, mockSchema, {
         validation: {
           lessThanOrEqualTo: 5
         }

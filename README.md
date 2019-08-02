@@ -52,12 +52,14 @@ const mySchema = {
 
 // Rejected Promise:
 // > [{"field": "title", "code": "ERROR_MIN_LENGTH", "message": "is too short"}]
-myValidator.validateDocument({
-  document: {
-    title: 'great'
-  },
-  schema: mySchema
-}).catch(console.log)
+myValidator
+  .validateDocument({
+    document: {
+      title: 'great'
+    },
+    schema: mySchema
+  })
+  .catch(console.log)
 
 // Resolved Promise:
 // > undefined
@@ -89,10 +91,12 @@ const mySchema = {
 
 // Rejected Promise:
 // > {"field": "title", "code": "ERROR_MIN_LENGTH", "message": "is too short"}
-myValidator.validateField({
-  schema: mySchema,
-  value: 'great'
-}).catch(console.log)
+myValidator
+  .validateField({
+    schema: mySchema,
+    value: 'great'
+  })
+  .catch(console.log)
 
 // Resolved Promise:
 // > undefined
@@ -127,7 +131,7 @@ them, to determine what licences are applicable.**
 
 DADI is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 The GNU General Public License (GPL) is available at

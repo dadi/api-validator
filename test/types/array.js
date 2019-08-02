@@ -12,7 +12,7 @@ const mockSchema = {
 
 describe('array type', done => {
   it('should export a function', () => {
-    (typeof array).should.eql('function')
+    ;(typeof array).should.eql('function')
   })
 
   it('should reject if the input value is not a array', done => {

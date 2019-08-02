@@ -5,7 +5,7 @@ const mixed = require('./../../types/mixed')
 
 describe('Mixed type', done => {
   it('should export a function', () => {
-    (typeof mixed).should.eql('function')
+    ;(typeof mixed).should.eql('function')
   })
 
   it('should accept and validate a boolean', () => {
@@ -30,14 +30,16 @@ describe('Mixed type', done => {
     mixed({
       schema: mockSchema,
       value: 'fine'
-    }).catch(error => {
-      error.should.be.instanceOf(Error)
+    })
+      .catch(error => {
+        error.should.be.instanceOf(Error)
 
-      return mixed({
-        schema: mockSchema,
-        value: 'great'
+        return mixed({
+          schema: mockSchema,
+          value: 'great'
+        })
       })
-    }).then(done)
+      .then(done)
   })
 
   it('should accept and validate a number', done => {
@@ -51,14 +53,16 @@ describe('Mixed type', done => {
     mixed({
       schema: mockSchema,
       value: 4
-    }).catch(error => {
-      error.should.be.instanceOf(Error)
+    })
+      .catch(error => {
+        error.should.be.instanceOf(Error)
 
-      return mixed({
-        schema: mockSchema,
-        value: 6
+        return mixed({
+          schema: mockSchema,
+          value: 6
+        })
       })
-    }).then(done)
+      .then(done)
   })
 
   it('should accept and validate an array', () => {
@@ -69,14 +73,16 @@ describe('Mixed type', done => {
     mixed({
       schema: mockSchema,
       value: 1234
-    }).catch(error => {
-      error.should.be.instanceOf(Error)
+    })
+      .catch(error => {
+        error.should.be.instanceOf(Error)
 
-      return mixed({
-        schema: mockSchema,
-        value: [1, 2, 3, 4]
+        return mixed({
+          schema: mockSchema,
+          value: [1, 2, 3, 4]
+        })
       })
-    }).then(done)
+      .then(done)
   })
 
   it('should accept an object', () => {
