@@ -1,6 +1,3 @@
-const should = require('should')
-const request = require('supertest')
-
 const datetime = require('./../../types/datetime')
 
 const mockSchema = {
@@ -8,7 +5,7 @@ const mockSchema = {
   format: 'YYYY-MM-DD'
 }
 
-describe('DateTime type', done => {
+describe('DateTime type', () => {
   it('should export a function', () => {
     ;(typeof datetime).should.eql('function')
   })

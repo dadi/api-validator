@@ -23,8 +23,6 @@ function buildFilters(schema) {
 }
 
 function parseDate(value, format) {
-  let date
-
   if (value instanceof Date) {
     return value
   }
