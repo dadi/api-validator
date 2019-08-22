@@ -41,25 +41,22 @@ The `Validator` class contains the following methods.
 Validates an access matrix. An optional `fieldName` can be supplied, which will be used in the error objects as the path of the field being validated.
 
 ```js
-// Rejected Promise:
+// Throws error:
 // > [
 // >   {"field": "foo.invalidType", "code": "ERROR_INVALID_ACCESS_TYPE"},
 // >   {"field": "foo.update.invalidKey", "code": "ERROR_INVALID_ACCESS_VALUE"}
 // > ]
-myValidator
-  .validateAccessMatrix(
-    {
-      create: true,
-      invalidType: true,
-      update: {
-        invalidKey: true
-      }
-    },
-    'foo'
-  )
-  .catch(console.log)
+myValidator.validateAccessMatrix(
+  {
+    create: true,
+    invalidType: true,
+    update: {
+      invalidKey: true
+    }
+  },
+  'foo'
+)
 
-// Resolved Promise:
 // > undefined
 myValidator.validateAccessMatrix({
   create: true,
@@ -223,7 +220,7 @@ myValidator.validateDocument({
 })
 ```
 
-When a `validationCallback` property is found in `schema`, it is used as a callback function that allows the user to supply additional validation logic that will be executed after the normal validation runs. This function should return a Promise that rejects when validation fails, passing down an error object with an optional `code` property that indicates the error code.
+When a `validationCallback` property is found in `schema`, it is used as a callback function that allows the user to supply additional validation logic that will be executed after the normal validation runs. This function can trigger a validation error by returning a rejected Promise.
 
 ## License
 

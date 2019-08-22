@@ -1,6 +1,3 @@
-const should = require('should')
-const request = require('supertest')
-
 const number = require('./../../types/number')
 
 const mockSchema = {
@@ -10,7 +7,7 @@ const mockSchema = {
   }
 }
 
-describe('Number type', done => {
+describe('Number type', () => {
   it('should export a function', () => {
     ;(typeof number).should.eql('function')
   })

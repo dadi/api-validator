@@ -1,6 +1,3 @@
-const should = require('should')
-const request = require('supertest')
-
 const boolean = require('./../../types/boolean')
 
 const mockSchema = {
@@ -10,7 +7,7 @@ const mockSchema = {
   }
 }
 
-describe('Boolean type', done => {
+describe('Boolean type', () => {
   it('should export a function', () => {
     ;(typeof boolean).should.eql('function')
   })

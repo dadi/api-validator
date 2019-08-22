@@ -116,7 +116,9 @@ class Validator {
       })
     }
 
-    return errors.length > 0 ? Promise.reject(errors) : Promise.resolve()
+    if (errors.length > 0) {
+      throw errors
+    }
   }
 
   validateDocument({document = {}, isUpdate = false, schema = {}}) {
@@ -133,6 +135,11 @@ class Validator {
 
       const canonicalName = field.split(this.i18nFieldCharacter)[0]
       const fieldSchema = schema[canonicalName]
+
+      // If the value is `undefined` and the field is required, we'll deal with
+      // it when we iterate over the schema fields. We do this to avoid errors
+      // being added twice.
+      if (document[field] === undefined && fieldSchema.required) return
 
       if (!fieldSchema) {
         return errors.push({

@@ -1,6 +1,3 @@
-const should = require('should')
-const request = require('supertest')
-
 const array = require('./../../types/array')
 
 const mockSchema = {
@@ -10,7 +7,7 @@ const mockSchema = {
   }
 }
 
-describe('array type', done => {
+describe('array type', () => {
   it('should export a function', () => {
     ;(typeof array).should.eql('function')
   })

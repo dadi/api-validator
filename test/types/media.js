@@ -1,13 +1,10 @@
-const should = require('should')
-const request = require('supertest')
-
 const media = require('./../../types/media')
 
 const mockSchema = {
   type: 'media'
 }
 
-describe('Media type', done => {
+describe('Media type', () => {
   it('should export a function', () => {
     ;(typeof media).should.eql('function')
   })

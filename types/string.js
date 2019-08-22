@@ -62,7 +62,7 @@ module.exports = ({schema, value}) => {
 
     return Promise.all(arrayValidation)
       .then(() => undefined)
-      .catch(error => {
+      .catch(() => {
         return new ValidationError(schema).reject()
       })
   }
