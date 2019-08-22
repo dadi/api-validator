@@ -1,13 +1,10 @@
-const should = require('should')
-const request = require('supertest')
-
 const objectid = require('./../../types/objectid')
 
 const mockSchema = {
   type: 'ObjectID'
 }
 
-describe('ObjectID type', done => {
+describe('ObjectID type', () => {
   it('should export a function', () => {
     ;(typeof objectid).should.eql('function')
   })

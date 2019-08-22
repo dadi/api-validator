@@ -1,5 +1,3 @@
-const should = require('should')
-const request = require('supertest')
 const Validator = require('./../index')
 
 const mockSchema = {

@@ -36,9 +36,43 @@ const myValidator = new Validator({
 
 The `Validator` class contains the following methods.
 
-### `validateDocument({document, schema})`
+### `validateAccessMatrix(matrix, fieldName)`
+
+Validates an access matrix. An optional `fieldName` can be supplied, which will be used in the error objects as the path of the field being validated.
+
+```js
+// Throws error:
+// > [
+// >   {"field": "foo.invalidType", "code": "ERROR_INVALID_ACCESS_TYPE"},
+// >   {"field": "foo.update.invalidKey", "code": "ERROR_INVALID_ACCESS_VALUE"}
+// > ]
+myValidator.validateAccessMatrix(
+  {
+    create: true,
+    invalidType: true,
+    update: {
+      invalidKey: true
+    }
+  },
+  'foo'
+)
+
+// > undefined
+myValidator.validateAccessMatrix({
+  create: true,
+  delete: {
+    filter: {
+      someField: 'someValue'
+    }
+  }
+})
+```
+
+### `validateDocument({document, isUpdate, schema})`
 
 Validates a document against a collection schema. It returns a Promise that is resolved with `undefined` if no validation errors occur, or rejected with an array of errors if validation fails.
+
+If `isUpdate` is set to `true`, the method does not throw a validation error if a required field is missing from the candidate document, because it is inferred that a partial update, as opposed to a full document, is being evaluated.
 
 ```js
 const mySchema = {
@@ -51,7 +85,7 @@ const mySchema = {
 }
 
 // Rejected Promise:
-// > [{"field": "title", "code": "ERROR_MIN_LENGTH", "message": "is too short"}]
+// > [{"field": "title", "code": "ERROR_MIN_LENGTH"}]
 myValidator
   .validateDocument({
     document: {
@@ -75,6 +109,86 @@ myValidator.validateDocument({
 
 Same as `validateDocument` but expects an array of documents (as the `documents` property) and performs validation on each one of them, aborting the process once one of the documents fails validation.
 
+### `validateSchemaField(name, schema)`
+
+Validates a field schema, evaluating whether `name` is a valid field name and whether `schema` is a valid schema object.
+
+```js
+// Rejected Promise:
+// > [{"field": "fields.title", "code": "ERROR_MISSING_FIELD_TYPE"}]
+myValidator
+  .validateSchemaField('title', {
+    validation: {
+      minLength: 10
+    }
+  })
+  .catch(console.log)
+
+// Resolved Promise:
+// > undefined
+myValidator.validateDocument({
+  type: 'string',
+  validation: {
+    minLength: 10
+  }
+})
+```
+
+### `validateSchemaFieldName(name)`
+
+Validates a field name.
+
+```js
+// Rejected Promise:
+// > [{"field": "fields.$no-good$", "code": "ERROR_INVALID_FIELD_NAME"}]
+myValidator.validateSchemaFieldName('$no-good$').catch(console.log)
+
+// Resolved Promise:
+// > undefined
+myValidator.validateSchemaFieldName('all-good')
+```
+
+### `validateSchemaFields(fields)`
+
+Validates an entire `fields` object from a candidate collection schema. It runs `validateSchemaField` on the individual fields.
+
+```js
+// Rejected Promise:
+// > [{"field": "fields", "code": "ERROR_EMPTY_FIELDS"}]
+myValidator.validateSchemaFields({}).catch(console.log)
+
+// Resolved Promise:
+// > undefined
+myValidator.validateSchemaFieldName({
+  title: {
+    type: 'string',
+    validation: {
+      minLength: 10
+    }
+  }
+})
+```
+
+### `validateSchemaSettings(settings)`
+
+Validates an entire `settings` object from a candidate collection schema.
+
+```js
+// Rejected Promise:
+// > [{"field": "fields.displayName", "code": "ERROR_INVALID_SETTING"}]
+myValidator
+  .validateSchemaSettings({
+    displayName: ['should', 'be', 'a', 'string']
+  })
+  .catch(console.log)
+
+// Resolved Promise:
+// > undefined
+myValidator.validateSchemaSettings({
+  displayName: 'I am a string'
+})
+```
+
 ### `validateValue({schema, value})`
 
 Validates a candidate value against a field schema. It returns a Promise that is resolved with `undefined` if no validation errors occur, or rejected with an error object if validation fails.
@@ -90,7 +204,7 @@ const mySchema = {
 }
 
 // Rejected Promise:
-// > {"field": "title", "code": "ERROR_MIN_LENGTH", "message": "is too short"}
+// > {"field": "title", "code": "ERROR_MIN_LENGTH"}
 myValidator
   .validateField({
     schema: mySchema,
@@ -105,6 +219,8 @@ myValidator.validateDocument({
   value: 'super amazing!'
 })
 ```
+
+When a `validationCallback` property is found in `schema`, it is used as a callback function that allows the user to supply additional validation logic that will be executed after the normal validation runs. This function can trigger a validation error by returning a rejected Promise.
 
 ## License
 

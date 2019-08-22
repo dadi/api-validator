@@ -1,6 +1,3 @@
-const should = require('should')
-const request = require('supertest')
-
 const mixed = require('./../../types/mixed')
 
 describe('Mixed type', done => {

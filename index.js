@@ -12,10 +12,113 @@ const types = {
 }
 const ValidationError = require('./lib/validation-error')
 
+const ACCESS_TYPES = [
+  'delete',
+  'deleteOwn',
+  'create',
+  'read',
+  'readOwn',
+  'update',
+  'updateOwn'
+]
+
 class Validator {
   constructor({i18nFieldCharacter = ':', internalFieldPrefix = '_'} = {}) {
     this.i18nFieldCharacter = i18nFieldCharacter
     this.internalFieldPrefix = internalFieldPrefix
+  }
+
+  validateAccessMatrix(matrix, fieldName) {
+    const fieldPrefix = fieldName ? `${fieldName}.` : ''
+    const errors = []
+
+    if (typeof matrix === 'object') {
+      Object.keys(matrix).forEach(type => {
+        if (!ACCESS_TYPES.includes(type)) {
+          errors.push({
+            code: 'ERROR_INVALID_ACCESS_TYPE',
+            field: `${fieldPrefix}${type}`,
+            message: 'is not a valid access type'
+          })
+        }
+
+        switch (typeof matrix[type]) {
+          case 'boolean':
+            return
+
+          case 'object':
+            Object.keys(matrix[type]).forEach(key => {
+              if (['fields', 'filter'].includes(key)) {
+                if (typeof matrix[type][key] !== 'object') {
+                  errors.push({
+                    code: 'ERROR_INVALID_ACCESS_VALUE',
+                    field: `${fieldPrefix}${type}.${key}`,
+                    message:
+                      'is not a valid value for the access type (expected Object)'
+                  })
+                } else if (key === 'fields') {
+                  const fieldsObj = matrix[type][key]
+                  const fields = Object.keys(fieldsObj)
+
+                  // A valid fields projection is an object where all fields are
+                  // 0 or 1, never combining the two.
+                  const invalidProjection = fields.some((field, index) => {
+                    if (fieldsObj[field] !== 0 && fieldsObj[field] !== 1) {
+                      return true
+                    }
+
+                    const nextField = fields[index + 1]
+
+                    if (
+                      nextField !== undefined &&
+                      fieldsObj[field] !== fieldsObj[nextField]
+                    ) {
+                      return true
+                    }
+
+                    return false
+                  })
+
+                  if (invalidProjection) {
+                    errors.push({
+                      code: 'ERROR_INVALID_ACCESS_VALUE',
+                      field: `${fieldPrefix}${type}.fields`,
+                      message:
+                        'is not a valid field projection – accepted values for keys are either 0 or 1 and they cannot be combined in the same projection'
+                    })
+                  }
+                }
+              } else {
+                errors.push({
+                  code: 'ERROR_INVALID_ACCESS_VALUE',
+                  field: `${fieldPrefix}${type}.${key}`,
+                  message: 'is not a valid key for an access value'
+                })
+              }
+            })
+
+            break
+
+          default:
+            errors.push({
+              code: 'ERROR_INVALID_ACCESS_VALUE',
+              field: `${fieldPrefix}${type}`,
+              message:
+                'is not a valid access value (expected Boolean or Object)'
+            })
+        }
+      })
+    } else {
+      errors.push({
+        code: 'ERROR_INVALID_ACCESS_MATRIX',
+        field: fieldName,
+        message: 'is not a valid access matrix object'
+      })
+    }
+
+    if (errors.length > 0) {
+      throw errors
+    }
   }
 
   validateDocument({document = {}, isUpdate = false, schema = {}}) {
@@ -33,6 +136,11 @@ class Validator {
       const canonicalName = field.split(this.i18nFieldCharacter)[0]
       const fieldSchema = schema[canonicalName]
 
+      // If the value is `undefined` and the field is required, we'll deal with
+      // it when we iterate over the schema fields. We do this to avoid errors
+      // being added twice.
+      if (document[field] === undefined && fieldSchema.required) return
+
       if (!fieldSchema) {
         return errors.push({
           code: 'ERROR_NOT_IN_SCHEMA',
@@ -45,17 +153,23 @@ class Validator {
         return this.validateValue({
           schema: fieldSchema,
           value
-        }).catch(error => {
-          const errorData = {
-            field,
-            message: error.message
-          }
+        }).catch(valueError => {
+          const valueErrors = Array.isArray(valueError)
+            ? valueError
+            : [valueError]
 
-          if (typeof error.code === 'string') {
-            errorData.code = error.code
-          }
+          valueErrors.forEach(error => {
+            const errorData = {
+              field: error.field || field,
+              message: error.message
+            }
 
-          errors.push(errorData)
+            if (typeof error.code === 'string') {
+              errorData.code = error.code
+            }
+
+            errors.push(errorData)
+          })
         })
       })
     })
@@ -383,6 +497,10 @@ class Validator {
     return typeHandler({
       schema,
       value
+    }).then(() => {
+      if (typeof schema.validationCallback === 'function') {
+        return Promise.resolve(schema.validationCallback(value))
+      }
     })
   }
 }

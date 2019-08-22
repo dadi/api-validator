@@ -1,3 +1,3 @@
-module.exports = ({schema, value}) => {
+module.exports = () => {
   return Promise.resolve()
 }

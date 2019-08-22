@@ -50,8 +50,7 @@ module.exports = ({schema, value}) => {
     greaterThanOrEqualTo,
     integer,
     lessThan,
-    lessThanOrEqualTo,
-    notInteger
+    lessThanOrEqualTo
   } = validateFilters(schema.validation || {})
 
   if (equalTo && value !== equalTo.value) {
